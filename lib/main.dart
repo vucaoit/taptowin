@@ -58,6 +58,9 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    final heightButton = height/10;
+    final donvi = (height - heightButton*2) / 20;
+
     return Scaffold(
         body: Center(
       child: Container(
@@ -70,20 +73,20 @@ class _MyHomePageState extends State<MyHomePage>
               child: InkWell(
                 onTap: () {
                   setState(() {
-                    if (count < (height - 200) / 2 && gameover == false)
-                      count += (height - 200) / 20;
-                    else
-                      {
-                        gameover = true;
-                        _controller.repeat();
-                      }
+                    if (count < (height/2)-heightButton-donvi*2 && gameover == false)
+                      count += donvi;
+                    else {
+                      count += donvi;
+                      gameover = true;
+                      _controller.repeat();
+                    }
                   });
                 },
                 child: Container(
                   alignment: Alignment.center,
                   color: Colors.cyan,
                   width: MediaQuery.of(context).size.width,
-                  height: 100,
+                  height: heightButton,
                   child: Text(
                     "TAP HERE",
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
@@ -94,14 +97,14 @@ class _MyHomePageState extends State<MyHomePage>
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              height: (height - 200),
+              height: (height - heightButton*2),
               child: Column(
                 children: [
                   Container(
                     color: Colors.yellow,
                     width: MediaQuery.of(context).size.width,
-                    height: ((height - 200) / 2 + count > 0)
-                        ? ((height - 200) / 2 + count)
+                    height: ((height - heightButton*2) / 2 + count > 0)
+                        ? ((height - heightButton*2) / 2 + count)
                         : 0,
                     child: (gameover && count > 0)
                         ? FlatButton(
@@ -121,9 +124,9 @@ class _MyHomePageState extends State<MyHomePage>
                       child: Container(
                     color: Colors.red,
                     width: MediaQuery.of(context).size.width,
-                    height: ((height - 200) / 2 + count >= height - 200)
+                    height: ((height - heightButton*2) / 2 + count >= height - heightButton*2)
                         ? 0
-                        : (height - 200) / 2,
+                        : (height - heightButton*2) / 2,
                     child: (gameover && count < 0)
                         ? FlatButton(
                             onPressed: () {
@@ -132,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage>
                               });
                             },
                             child: customRotation("RED"),
-                            )
+                          )
                         : Text(""),
                   ))
                 ],
@@ -141,17 +144,20 @@ class _MyHomePageState extends State<MyHomePage>
             InkWell(
               onTap: () {
                 setState(() {
-                  if (count > (height - 200) / 2 * -1 && gameover == false)
-                    count -= (height - 200) / 20;
-                  else
+                  if (count > ((height/2)-heightButton-donvi*2)*-1 && gameover == false)
+                    count -= donvi;
+                  else {
+                    count -= donvi;
                     gameover = true;
+                    _controller.repeat();
+                  }
                 });
               },
               child: Container(
                 alignment: Alignment.center,
                 color: Colors.cyan,
                 width: MediaQuery.of(context).size.width,
-                height: 100,
+                height: heightButton,
                 child: Text(
                   "TAP HERE",
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
@@ -169,15 +175,14 @@ class _MyHomePageState extends State<MyHomePage>
     this.gameover = false;
     this.count = 0;
   }
-  Widget customRotation(String name){
+
+  Widget customRotation(String name) {
     return RotationTransition(
       turns: Tween(begin: 0.0, end: 1.0).animate(_controller),
       child: Text(
         "$name WIN\nRESTART",
         style: TextStyle(
-            color: Colors.white,
-            fontSize: 50,
-            fontWeight: FontWeight.bold),
+            color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold),
         textAlign: TextAlign.center,
       ),
     );
