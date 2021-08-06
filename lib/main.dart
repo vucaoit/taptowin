@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage>
                     if (count < (height/2)-heightButton-donvi*2 && gameover == false)
                       count += donvi;
                     else {
-                      count += donvi;
+                      if(gameover==false)count += donvi;
                       gameover = true;
                       _controller.repeat();
                     }
@@ -147,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage>
                   if (count > ((height/2)-heightButton-donvi*2)*-1 && gameover == false)
                     count -= donvi;
                   else {
-                    count -= donvi;
+                    if(gameover==false)count -= donvi;
                     gameover = true;
                     _controller.repeat();
                   }
