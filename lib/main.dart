@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +39,10 @@ class _MyHomePageState extends State<MyHomePage>
   double count = 0;
   bool gameover = false;
   late AnimationController _controller;
+  static AudioCache cache = AudioCache();
+  playLocal() async {
+    await cache.play('sound/click.mp3',mode: PlayerMode.LOW_LATENCY);
+  }
   @override
   void initState() {
     // TODO: implement initState
@@ -72,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage>
               turns: AlwaysStoppedAnimation(180 / 360),
               child: InkWell(
                 onTap: () {
+                  if(gameover==false)playLocal();
                   setState(() {
                     if (count < (height/2)-heightButton-donvi*2 && gameover == false)
                       count += donvi;
@@ -143,6 +149,7 @@ class _MyHomePageState extends State<MyHomePage>
             ),
             InkWell(
               onTap: () {
+                if(gameover==false)playLocal();
                 setState(() {
                   if (count > ((height/2)-heightButton-donvi*2)*-1 && gameover == false)
                     count -= donvi;
